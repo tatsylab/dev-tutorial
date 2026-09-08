@@ -57,6 +57,8 @@ uv sync
 
 この操作で、プロジェクト専用のPython環境 `.venv/` が作成されます。
 
+このチュートリアルでは、Ruffとtyも開発用の依存関係として `pyproject.toml` に含めています。そのため、`uv sync` を実行すると、Pythonライブラリだけでなく研究室で使う開発用ツールもプロジェクト内にそろいます。
+
 `.venv/` は自動生成されるためGitでは管理しません。プロジェクトに必要な情報は `pyproject.toml` と `uv.lock` に保存します。
 
 ## 4. Pythonプログラムを実行する
@@ -76,21 +78,18 @@ Hello from the Tatsy Lab development environment!
 
 `uv run` を使うと、そのプロジェクトの `.venv/` を使ってコマンドを実行できます。
 
-## 5. テストを実行する
-
-このチュートリアルでは、外部ライブラリを追加しなくても実行できる小さなテストを用意しています。
-
-```bash
-uv run python -m unittest discover -s tests -v
-```
-
-`OK` と表示されれば成功です。
-
-## 6. Ruffとtyを確認する
+## 5. Ruffとtyを確認する
 
 `hello.py` をVS Codeで開いてみてください。
 
-研究室のDev Containerでは、Pythonコードの整形とLintにRuff、型チェックにtyを使います。これらはVS Code拡張として設定されているため、通常はコマンドを覚える必要はありません。
+研究室では、Pythonコードの整形とLintにRuff、型チェックにtyを使います。Dev ContainerにはVS Code拡張も設定されているため、通常はコマンドを覚えなくてもVS Code上で利用できます。
+
+また、このリポジトリではRuffとty自体も `uv` の開発用依存関係として管理しています。必要であれば、ターミナルから次のように実行することもできます。
+
+```bash
+uv run ruff check .
+uv run ty check
+```
 
 ### Ruff
 
@@ -114,7 +113,7 @@ print(repeat_message(message, "2"))
 
 確認したら、元の `2` に戻して保存してください。
 
-## 7. ライブラリの追加と削除を試す
+## 6. ライブラリの追加と削除を試す
 
 研究室内のPythonプロジェクトでは、通常 `pip install` を直接使わず、`uv add` を使います。
 
@@ -146,7 +145,7 @@ git diff -- pyproject.toml uv.lock
 uv remove numpy
 ```
 
-## 8. Jupyter Notebookを試す
+## 7. Jupyter Notebookを試す
 
 Notebookを実行するためのパッケージを開発用依存関係として追加します。
 
@@ -168,7 +167,7 @@ notebooks/example.ipynb
 uv remove --dev ipykernel
 ```
 
-## 9. Gitで変更を確認する
+## 8. Gitで変更を確認する
 
 最後に `hello.py` の表示メッセージを好きな文章に変更してみてください。
 
@@ -196,7 +195,7 @@ git commit -m "Practice editing the tutorial program"
 - [ ] GitHubからリポジトリをcloneした
 - [ ] Dev Containerでプロジェクトを開いた
 - [ ] `uv sync` を実行した
-- [ ] Pythonプログラムとテストを実行した
+- [ ] Pythonプログラムを実行した
 - [ ] Ruffとtyの動作を確認した
 - [ ] `uv add` / `uv remove` を試した
 - [ ] Jupyter Notebookを実行した
